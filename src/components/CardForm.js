@@ -65,8 +65,16 @@ const CardForm = () => {
         <div className="card-form__group">
           <div className="card-form__group-col1">
             <div className="card-form__input">
-              <label className="card-form__input-label">Expire Date</label>
-              <select name="expireMonth" ref={register} defaultValue="">
+              <label className="card-form__input-label" htmlFor="select-date">
+                Expiration Date
+              </label>
+              <select
+                name="expireMonth"
+                ref={register}
+                defaultValue=""
+                id="select-date"
+                className="card-form__input-select"
+              >
                 <option value="" disabled>
                   Month
                 </option>
@@ -81,17 +89,39 @@ const CardForm = () => {
                     );
                   })}
               </select>
-              <select name="expireYear" ref={register} defaultValue="">
+            </div>
+            <div className="card-form__input">
+              <select
+                name="expireYear"
+                ref={register}
+                defaultValue=""
+                className="card-form__input-select"
+              >
                 <option value="" disabled>
                   Year
                 </option>
+                {Array(12)
+                  .fill(null)
+                  .map((i, index) => {
+                    const year = new Date().getFullYear();
+                    return index === 0 ? year : year + index;
+                  })
+                  .map((year) => {
+                    return (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
               </select>
             </div>
           </div>
           <div className="card-form__group-col2">
             <div className="card-form__input">
-              <label className="card-form__input-label">CVV</label>
-              <input className="card-form__input-input" />
+              <label className="card-form__input-label" htmlFor="cvv">
+                CVV
+              </label>
+              <input className="card-form__input-input" id="cvv" />
             </div>
           </div>
         </div>
