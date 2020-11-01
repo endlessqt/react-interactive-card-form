@@ -22,7 +22,7 @@ const CardForm = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
   };
   return (
     <>
@@ -127,7 +127,7 @@ const CardForm = () => {
         </div>
 
         <button className="card-form__button" type="submit">
-          submit
+          Submit
         </button>
       </form>
     </>
