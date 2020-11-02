@@ -4,7 +4,7 @@ import "./CardForm.scss";
 
 const CardForm = () => {
   const { register, handleSubmit } = useFormContext();
-  
+
   const normalizeCreditNumber = (value) => {
     value = value.replace(/\s+/g, "");
     const reg = /\d{4,16}/g;

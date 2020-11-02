@@ -30,20 +30,37 @@
       width: 7rem;
     }
   }
+  &__center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &-label {
+      display: flex;
+      width: 100%;
+      padding: 1rem;
+    }
+    &-item {
+      width: 100%;
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 //flip animation
 .flip-enter {
-  animation: flip-in-hor-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: flip-in-hor-bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .flip-exit {
-  animation: flip-out-hor-top 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  animation: flip-out-hor-top 0.25s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 .flip-enter-active {
-  animation: flip-in-hor-bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: flip-in-hor-bottom 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 .flip-exit-active {
-  animation: flip-out-hor-top 0.45s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  animation: flip-out-hor-top 0.25s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
 }
 @keyframes flip-out-hor-top {
   0% {

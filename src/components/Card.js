@@ -10,15 +10,16 @@ const Card = () => {
   const cardNum = useWatch({
     control,
     name: "cardNum",
-    defaultValue: "########",
+    defaultValue: "",
   });
   const cardHolder = useWatch({
     control,
     name: "cardHolder",
-    defaultValue: "John Doe",
   });
   const [cardType, setCardType] = useState("visa");
-  let ref = useRef(null);
+
+  const imgRef = useRef(null);
+
   useEffect(() => {
     //switch card type state based on user input to animate card-logo
     if (
@@ -43,10 +44,10 @@ const Card = () => {
           <SwitchTransition>
             <CSSTransition
               key={cardType}
-              nodeRef={ref}
+              nodeRef={imgRef}
               timeout={300}
               addEndListener={(node, done) => {
-                node = ref.current;
+                node = imgRef.current;
                 node.addEventListener("transitionend", done, false);
               }}
               classNames="flip"
@@ -56,20 +57,63 @@ const Card = () => {
                   src={cardType === "visa" ? visa : masterCard}
                   className="card-inner__card-label-image"
                   alt="card-label"
-                  ref={ref}
+                  ref={imgRef}
                 />
               </div>
             </CSSTransition>
           </SwitchTransition>
         </div>
-        <div>center</div>
+        <div className="card-inner__center">
+          <label htmlFor="cardNum" className="card-inner__center-label">
+            {Array(16)
+              .fill(null)
+              .map((i, index) => {
+                const joinedCardNum = cardNum.replace(/\s+/g, "");
+                if (index === 3 || index === 7 || index === 11) {
+                  return (
+                    <React.Fragment key={index}>
+                      <SwitchTransition>
+                        <CSSTransition
+                          key={joinedCardNum[index] ? true : false}
+                          timeout={150}
+                          addEndListener={(node, done) => {
+                            node.addEventListener("transitionend", done, false);
+                          }}
+                          classNames="flip"
+                        >
+                          <span className="card-inner__center-item">{`${
+                            joinedCardNum[index] || "#"
+                          }`}</span>
+                        </CSSTransition>
+                      </SwitchTransition>
+                      <span className="card-inner__center-item">&nbsp;</span>
+                    </React.Fragment>
+                  );
+                } else {
+                  return (
+                    <SwitchTransition key={index}>
+                      <CSSTransition
+                        key={joinedCardNum[index] ? true : false}
+                        timeout={150}
+                        addEndListener={(node, done) => {
+                          node.addEventListener("transitionend", done, false);
+                        }}
+                        classNames="flip"
+                      >
+                        <span className="card-inner__center-item">
+                          {joinedCardNum[index] || "#"}
+                        </span>
+                      </CSSTransition>
+                    </SwitchTransition>
+                  );
+                }
+              })}
+          </label>
+        </div>
         <div>bottom</div>
       </div>
     </div>
   );
 };
-//<div>Card Number is {cardNum}</div>
-
-/* <div>Card Holder is {cardHolder}</div> */
 
 export default Card;
