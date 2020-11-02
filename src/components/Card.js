@@ -17,15 +17,22 @@ const Card = () => {
     name: "cardHolder",
     defaultValue: "John Doe",
   });
-  const [card, setCard] = useState("visa");
+  const [cardType, setCardType] = useState("visa");
   let ref = useRef(null);
   useEffect(() => {
-    if (cardNum.startsWith("54")) {
-      setCard("master");
-    } else {
-      setCard("visa");
+    //switch card type state based on user input to animate card-logo
+    if (
+      cardNum.startsWith("5") &&
+      cardNum.length < 2 &&
+      cardType !== "master"
+    ) {
+      setCardType("master");
+    }
+    if (cardNum.length < 2 && cardType !== "visa") {
+      setCardType("visa");
     }
   }, [cardNum]);
+
   return (
     <div className="card">
       <div className="card-inner">
@@ -35,9 +42,9 @@ const Card = () => {
           </div>
           <SwitchTransition>
             <CSSTransition
-              key={card}
+              key={cardType}
               nodeRef={ref}
-              timeout={500}
+              timeout={300}
               addEndListener={(node, done) => {
                 node = ref.current;
                 node.addEventListener("transitionend", done, false);
@@ -46,7 +53,7 @@ const Card = () => {
             >
               <div className="card-inner__card-label">
                 <img
-                  src={card === "visa" ? visa : masterCard}
+                  src={cardType === "visa" ? visa : masterCard}
                   className="card-inner__card-label-image"
                   alt="card-label"
                   ref={ref}
