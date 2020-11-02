@@ -5,8 +5,9 @@ import chip from "../assets/images/card-chip.png";
 import masterCard from "../assets/images/master-card.png";
 import visa from "../assets/images/visa.png";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
-const Card = () => {
+const Card = ({ cardNumIsFocused }) => {
   const { control } = useFormContext();
+  // console.log(cardNumIsFocused);
   const cardNum = useWatch({
     control,
     name: "cardNum",
@@ -64,7 +65,12 @@ const Card = () => {
           </SwitchTransition>
         </div>
         <div className="card-inner__center">
-          <label htmlFor="cardNum" className="card-inner__center-label">
+          <label
+            htmlFor="cardNum"
+            className={`card-inner__center-label ${
+              cardNumIsFocused ? "card-inner__center-label-isFocused" : ""
+            }`}
+          >
             {Array(16)
               .fill(null)
               .map((i, index) => {

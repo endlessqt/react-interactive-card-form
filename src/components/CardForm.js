@@ -2,7 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import "./CardForm.scss";
 
-const CardForm = () => {
+const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
   const { register, handleSubmit } = useFormContext();
 
   const normalizeCreditNumber = (value) => {
@@ -20,13 +20,17 @@ const CardForm = () => {
       return value;
     }
   };
-
+  console.log(cardNumIsFocused);
   const onSubmit = (data) => {
     // console.log(data);
   };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="card-form">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="card-form"
+        autoComplete="off"
+      >
         <div className="card-form__input">
           <label className="card-form__input-label" htmlFor="cardNum">
             Card Number
@@ -47,6 +51,14 @@ const CardForm = () => {
             }}
             onChange={(e) => {
               e.target.value = normalizeCreditNumber(e.target.value);
+            }}
+            onFocus={() => {
+              if (!cardNumIsFocused) {
+                setCardNumIsFocused(true);
+              }
+            }}
+            onBlur={() => {
+              setCardNumIsFocused(false);
             }}
           />
         </div>
