@@ -2,7 +2,14 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import "./CardForm.scss";
 
-const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
+const CardForm = ({
+  cardNumIsFocused,
+  setCardNumFocused,
+  cardHolderIsFocused,
+  setCardHolderFocused,
+  expireDateIsFocused,
+  setExpireDateFocused,
+}) => {
   const { register, handleSubmit } = useFormContext();
 
   const normalizeCreditNumber = (value) => {
@@ -20,10 +27,8 @@ const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
       return value;
     }
   };
-  console.log(cardNumIsFocused);
-  const onSubmit = (data) => {
-    // console.log(data);
-  };
+
+  const onSubmit = (data) => {};
   return (
     <>
       <form
@@ -54,11 +59,11 @@ const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
             }}
             onFocus={() => {
               if (!cardNumIsFocused) {
-                setCardNumIsFocused(true);
+                setCardNumFocused(true);
               }
             }}
             onBlur={() => {
-              setCardNumIsFocused(false);
+              setCardNumFocused(false);
             }}
           />
         </div>
@@ -71,6 +76,22 @@ const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
             className="card-form__input-input"
             name="cardHolder"
             ref={register}
+            onFocus={() => {
+              if (!cardHolderIsFocused) {
+                setCardHolderFocused(true);
+              }
+            }}
+            onBeforeInput={(e) => {
+              if (
+                e.target.value.length === 30 ||
+                !/^[a-z\d\_\s]+$/gi.test(e.data)
+              ) {
+                e.preventDefault();
+              }
+            }}
+            onBlur={() => {
+              setCardHolderFocused(false);
+            }}
           />
         </div>
 
@@ -86,6 +107,14 @@ const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
                 defaultValue=""
                 id="select-date"
                 className="card-form__input-select"
+                onFocus={() => {
+                  if (!expireDateIsFocused) {
+                    setExpireDateFocused(true);
+                  }
+                }}
+                onBlur={() => {
+                  setExpireDateFocused(false);
+                }}
               >
                 <option value="" disabled>
                   Month
@@ -107,6 +136,15 @@ const CardForm = ({ cardNumIsFocused, setCardNumIsFocused }) => {
                 name="expireYear"
                 ref={register}
                 defaultValue=""
+                id="select-date"
+                onFocus={() => {
+                  if (!expireDateIsFocused) {
+                    setExpireDateFocused(true);
+                  }
+                }}
+                onBlur={() => {
+                  setExpireDateFocused(false);
+                }}
                 className="card-form__input-select"
               >
                 <option value="" disabled>

@@ -6,15 +6,25 @@ import CardForm from "./components/CardForm";
 
 function App() {
   const methods = useForm();
-  const [cardNumIsFocused, setCardNumIsFocused] = useState(false);
+  const [cardNumIsFocused, setCardNumFocused] = useState(false);
+  const [cardHolderIsFocused, setCardHolderFocused] = useState(false);
+  const [expireDateIsFocused, setExpireDateFocused] = useState(false);
   return (
     <div className="app">
       <div className="main-wrapper">
         <FormProvider {...methods}>
-          <Card cardNumIsFocused={cardNumIsFocused} />
-          <CardForm
-            setCardNumIsFocused={setCardNumIsFocused}
+          <Card
+            expireDateIsFocused={expireDateIsFocused}
             cardNumIsFocused={cardNumIsFocused}
+            cardHolderIsFocused={cardHolderIsFocused}
+          />
+          <CardForm
+            expireDateIsFocused={expireDateIsFocused}
+            setExpireDateFocused={setExpireDateFocused}
+            cardNumIsFocused={cardNumIsFocused}
+            setCardNumFocused={setCardNumFocused}
+            cardHolderIsFocused={cardHolderIsFocused}
+            setCardHolderFocused={setCardHolderFocused}
           />
         </FormProvider>
       </div>

@@ -1,7 +1,7 @@
 @import "../assets/styles/variables.scss";
 .card {
   flex: 1 0;
-  width: 80%;
+  width: 85%;
   display: flex;
 }
 .card-inner {
@@ -13,6 +13,16 @@
   border: 1px solid rgba($dark, 0.3);
   box-shadow: 0.2rem 0.2rem 0.5rem $dark, -0.3rem -0.3rem 0.5rem $light;
   justify-content: space-between;
+  &__item {
+    width: 100%;
+    font-size: 2rem;
+    font-weight: 500;
+    @include text-shadow;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
   &__top {
     display: flex;
     justify-content: space-between;
@@ -30,31 +40,55 @@
       width: 7rem;
     }
   }
+  &__label {
+    display: flex;
+    width: 100%;
+    padding: 1rem 0.75rem;
+    transition: box-shadow 0.5s;
+
+    &-items-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    &-item {
+      &-1 {
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: normal;
+        @include text-shadow;
+        margin-bottom: 0.25rem;
+        max-width: 100%;
+      }
+      &-2 {
+        display: flex;
+        text-transform: uppercase;
+        @include text-shadow;
+      }
+    }
+    &-isFocused {
+      box-shadow: inset 0.4rem 0.4rem 0.5rem $dark,
+        inset -0.5rem -0.5rem 0.5rem $light;
+      border-radius: $radius-default;
+      border: 1px solid rgba($dark, 0.5);
+    }
+  }
   &__center {
     display: flex;
     align-items: center;
     justify-content: center;
-    &-label {
-      display: flex;
-      width: 100%;
-      padding: 1rem;
-      transition: box-shadow 0.5s;
-      &-isFocused {
-        box-shadow: inset 0.4rem 0.4rem 0.5rem $dark,
-          inset -0.5rem -0.5rem 0.5rem $light;
-        border-radius: $radius-default;
-        border: 1px solid rgba($dark, 0.5);
-      }
+  }
+  &__bottom {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    &-left {
+      flex: 2;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
-    &-item {
-      width: 100%;
-      font-size: 2rem;
-      font-weight: 500;
-      text-shadow: 0.25rem 0.25rem 0.5rem $dark;
-      display: flex;
+    &-right {
       flex: 1;
-      justify-content: center;
-      align-items: center;
     }
   }
 }
@@ -93,3 +127,9 @@
     opacity: 1;
   }
 }
+
+//     white-space: nowrap;
+//     max-width: 100%;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+//     text-transform: uppercase;

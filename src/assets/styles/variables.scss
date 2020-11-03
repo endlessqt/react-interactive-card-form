@@ -3,3 +3,7 @@ $light: #ffffff;
 $dark: #a3b1c6;
 $text: #31344b;
 $radius-default: 1rem;
+
+@mixin text-shadow {
+  text-shadow: 0.25rem 0.25rem 0.5rem $dark;
+}
