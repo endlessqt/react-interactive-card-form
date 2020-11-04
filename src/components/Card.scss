@@ -3,8 +3,18 @@
   flex: 1 0;
   width: 85%;
   display: flex;
+  perspective: 100rem;
+  &.flipcard &-inner {
+    transform: rotateY(-180deg);
+    box-shadow: 0.3rem -0.3rem 0.5rem $light, -0.2rem 0.2rem 0.5rem $dark;
+  }
 }
+//flipcard class is used to flip card;
+
 .card-inner {
+  transition: transform 0.85s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 1rem 2rem;
@@ -13,6 +23,59 @@
   border: 1px solid rgba($dark, 0.3);
   box-shadow: 0.2rem 0.2rem 0.5rem $dark, -0.3rem -0.3rem 0.5rem $light;
   justify-content: space-between;
+
+  &__front,
+  &__back {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &__front {
+    padding: 1rem 2rem;
+    z-index: 10;
+    transform: rotateY(0deg);
+  }
+  &__back {
+    padding: 2.5rem 0;
+    transform: rotateY(-180deg);
+    &-top {
+      height: 4.5rem;
+      background-color: black;
+    }
+    &-cvv-wrap {
+      width: 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &-center {
+      margin-top: auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      &-cvv {
+        font-weight: 600;
+      }
+    }
+    &-bottom {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0 1rem;
+      margin-top: auto;
+      & .card-inner__card-label-image {
+        width: 5rem;
+      }
+    }
+  }
+
   &__item {
     width: 100%;
     font-size: 2rem;
@@ -127,9 +190,3 @@
     opacity: 1;
   }
 }
-
-//     white-space: nowrap;
-//     max-width: 100%;
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     text-transform: uppercase;

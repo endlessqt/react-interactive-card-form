@@ -9,6 +9,8 @@ const CardForm = ({
   setCardHolderFocused,
   expireDateIsFocused,
   setExpireDateFocused,
+  cvvIsFocused,
+  setCvvFocused,
 }) => {
   const { register, handleSubmit } = useFormContext();
 
@@ -84,7 +86,7 @@ const CardForm = ({
             onBeforeInput={(e) => {
               if (
                 e.target.value.length === 30 ||
-                !/^[a-z\d\_\s]+$/gi.test(e.data)
+                !/^[a-z\d_\s]+$/gi.test(e.data)
               ) {
                 e.preventDefault();
               }
@@ -171,7 +173,26 @@ const CardForm = ({
               <label className="card-form__input-label" htmlFor="cvv">
                 CVV
               </label>
-              <input className="card-form__input-input" id="cvv" />
+              <input
+                className="card-form__input-input"
+                id="cvv"
+                name="cvv"
+                defaultValue=""
+                ref={register}
+                onBeforeInput={(e) => {
+                  if (e.target.value.length >= 4 || !/\d/g.test(e.data)) {
+                    e.preventDefault();
+                  }
+                }}
+                onFocus={() => {
+                  if (!cvvIsFocused) {
+                    setCvvFocused(true);
+                  }
+                }}
+                onBlur={() => {
+                  setCvvFocused(false);
+                }}
+              />
             </div>
           </div>
         </div>

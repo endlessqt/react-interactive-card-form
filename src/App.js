@@ -9,16 +9,20 @@ function App() {
   const [cardNumIsFocused, setCardNumFocused] = useState(false);
   const [cardHolderIsFocused, setCardHolderFocused] = useState(false);
   const [expireDateIsFocused, setExpireDateFocused] = useState(false);
+  const [cvvIsFocused, setCvvFocused] = useState(false);
   return (
     <div className="app">
       <div className="main-wrapper">
         <FormProvider {...methods}>
           <Card
+            cvvIsFocused={cvvIsFocused}
             expireDateIsFocused={expireDateIsFocused}
             cardNumIsFocused={cardNumIsFocused}
             cardHolderIsFocused={cardHolderIsFocused}
           />
           <CardForm
+            cvvIsFocused={cvvIsFocused}
+            setCvvFocused={setCvvFocused}
             expireDateIsFocused={expireDateIsFocused}
             setExpireDateFocused={setExpireDateFocused}
             cardNumIsFocused={cardNumIsFocused}
