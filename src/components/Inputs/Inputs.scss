@@ -23,12 +23,12 @@
     &:focus {
       outline: none;
     }
-    &-select {
-      background-image: url("../../assets/images/drop-down-arrow.svg");
-      background-repeat: no-repeat;
-      background-position: 90% center;
-      background-size: 1rem;
-      appearance: none;
-    }
+  }
+  &-select {
+    background-image: url("../../assets/images/drop-down-arrow.svg");
+    background-repeat: no-repeat;
+    background-position: 90% center;
+    background-size: 1rem;
+    appearance: none;
   }
 }
