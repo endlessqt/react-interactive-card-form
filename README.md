@@ -5,3 +5,4 @@
 - validation
 - css refactor
 - readme updates
+- add references
