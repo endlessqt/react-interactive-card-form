@@ -1,4 +1,5 @@
-![demo](./demo/formDemo.gif)
+<p align="center"><img src="./demo/formDemo.gif"/>
+</p>
 
 ### TODO:
 
