@@ -1,4 +1,6 @@
 import React from "react";
+import Input from "./Inputs/Input";
+import Select from "./Inputs/Select";
 import { useFormContext } from "react-hook-form";
 import "./CardForm.scss";
 
@@ -30,7 +32,9 @@ const CardForm = ({
     }
   };
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   return (
     <>
       <form
@@ -39,14 +43,15 @@ const CardForm = ({
         autoComplete="off"
       >
         <div className="card-form__input">
-          <label className="card-form__input-label" htmlFor="cardNum">
-            Card Number
-          </label>
-          <input
-            className="card-form__input-input"
-            id="cardNum"
-            name="cardNum"
+          <Input
+            defaultValue=""
             ref={register}
+            label="Card Number"
+            htmlFor="cardNum"
+            name="cardNum"
+            onChange={(e) => {
+              e.target.value = normalizeCreditNumber(e.target.value);
+            }}
             onBeforeInput={(e) => {
               //allow to input only digits in card number field && disallow to input more than 16 chars
               if (
@@ -55,9 +60,6 @@ const CardForm = ({
               ) {
                 e.preventDefault();
               }
-            }}
-            onChange={(e) => {
-              e.target.value = normalizeCreditNumber(e.target.value);
             }}
             onFocus={() => {
               if (!cardNumIsFocused) {
@@ -70,13 +72,11 @@ const CardForm = ({
           />
         </div>
         <div className="card-form__input">
-          <label className="card-form__input-label" htmlFor="cardHolder">
-            Card Holder
-          </label>
-          <input
-            id="cardHolder"
-            className="card-form__input-input"
+          <Input
+            label="Card Holder"
+            htmlFor="cardHolder"
             name="cardHolder"
+            defaultValue=""
             ref={register}
             onFocus={() => {
               if (!cardHolderIsFocused) {
@@ -96,19 +96,18 @@ const CardForm = ({
             }}
           />
         </div>
-
         <div className="card-form__group">
           <div className="card-form__group-col1">
             <div className="card-form__input">
               <label className="card-form__input-label" htmlFor="select-date">
                 Expiration Date
               </label>
-              <select
+              <Select
                 name="expireMonth"
                 ref={register}
                 defaultValue=""
+                defaultText="Month"
                 id="select-date"
-                className="card-form__input-select"
                 onFocus={() => {
                   if (!expireDateIsFocused) {
                     setExpireDateFocused(true);
@@ -118,9 +117,6 @@ const CardForm = ({
                   setExpireDateFocused(false);
                 }}
               >
-                <option value="" disabled>
-                  Month
-                </option>
                 {Array(12)
                   .fill(null)
                   .map((i, index) => (i = index + 1))
@@ -131,13 +127,14 @@ const CardForm = ({
                       </option>
                     );
                   })}
-              </select>
+              </Select>
             </div>
             <div className="card-form__input">
-              <select
+              <Select
                 name="expireYear"
                 ref={register}
                 defaultValue=""
+                defaultText="Year"
                 id="select-date"
                 onFocus={() => {
                   if (!expireDateIsFocused) {
@@ -147,11 +144,7 @@ const CardForm = ({
                 onBlur={() => {
                   setExpireDateFocused(false);
                 }}
-                className="card-form__input-select"
               >
-                <option value="" disabled>
-                  Year
-                </option>
                 {Array(12)
                   .fill(null)
                   .map((i, index) => {
@@ -165,20 +158,18 @@ const CardForm = ({
                       </option>
                     );
                   })}
-              </select>
+              </Select>
             </div>
           </div>
           <div className="card-form__group-col2">
             <div className="card-form__input">
-              <label className="card-form__input-label" htmlFor="cvv">
-                CVV
-              </label>
-              <input
-                className="card-form__input-input"
-                id="cvv"
+              <Input
+                type="password"
+                label="CVV"
+                ref={register}
+                htmlFor="cvv"
                 name="cvv"
                 defaultValue=""
-                ref={register}
                 onBeforeInput={(e) => {
                   if (e.target.value.length >= 4 || !/\d/g.test(e.data)) {
                     e.preventDefault();
@@ -196,7 +187,6 @@ const CardForm = ({
             </div>
           </div>
         </div>
-
         <button className="card-form__button" type="submit">
           Submit
         </button>
