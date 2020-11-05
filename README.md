@@ -1,4 +1,4 @@
-[demo](./demo/formDemo.gif)
+![demo](./demo/formDemo.gif)
 
 ### TODO:
 
