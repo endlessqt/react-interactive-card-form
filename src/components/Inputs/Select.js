@@ -1,5 +1,5 @@
-import React, { forwardRef } from "react";
-import "./Inputs.scss";
+import React, { forwardRef } from 'react';
+import './Inputs.scss';
 
 const Select = forwardRef(
   ({ id, defaultValue, defaultText, name, onFocus, onBlur, children }, ref) => {
@@ -12,8 +12,7 @@ const Select = forwardRef(
           id={id}
           className="card-form__input-select"
           onFocus={onFocus}
-          onBlur={onBlur}
-        >
+          onBlur={onBlur}>
           <option value={defaultValue} disabled>
             {defaultText}
           </option>

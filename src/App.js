@@ -1,11 +1,13 @@
-import "./App.scss";
-import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import Card from "./components/Card";
-import CardForm from "./components/CardForm";
+import './App.scss';
+import { useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import Card from './components/Card';
+import CardForm from './components/CardForm';
 
 function App() {
-  const methods = useForm();
+  const methods = useForm({
+    reValidateMode: 'onChange',
+  });
   const [cardNumIsFocused, setCardNumFocused] = useState(false);
   const [cardHolderIsFocused, setCardHolderFocused] = useState(false);
   const [expireDateIsFocused, setExpireDateFocused] = useState(false);

@@ -1,5 +1,5 @@
-import React, { forwardRef } from "react";
-import "./Inputs.scss";
+import React, { forwardRef } from 'react';
+import './Inputs.scss';
 
 const Input = forwardRef(
   (
@@ -22,7 +22,7 @@ const Input = forwardRef(
           {label}
         </label>
         <input
-          type={type ? type : "text"}
+          type={type ? type : 'text'}
           className="card-form__input-input"
           id={htmlFor}
           name={name}

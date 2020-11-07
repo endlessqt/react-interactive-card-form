@@ -1,8 +1,9 @@
-import React from "react";
-import Input from "./Inputs/Input";
-import Select from "./Inputs/Select";
-import { useFormContext } from "react-hook-form";
-import "./CardForm.scss";
+import React from 'react';
+import Input from './Inputs/Input';
+import Select from './Inputs/Select';
+import { useFormContext } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import './CardForm.scss';
 
 const CardForm = ({
   cardNumIsFocused,
@@ -14,49 +15,76 @@ const CardForm = ({
   cvvIsFocused,
   setCvvFocused,
 }) => {
-  const { register, handleSubmit } = useFormContext();
+  const { register, handleSubmit, errors } = useFormContext();
 
-  const normalizeCreditNumber = (value) => {
-    value = value.replace(/\s+/g, "");
+  const normalizeCreditNumber = value => {
+    value = value.replace(/\s+/g, '');
     const reg = /\d{4,16}/g;
     const matches = value.match(reg);
-    const match = (matches && matches[0]) || "";
+    const match = (matches && matches[0]) || '';
     const parts = [];
     for (let i = 0; i < match.length; i += 4) {
       parts.push(match.substring(i, i + 4));
     }
     if (parts.length) {
-      return parts.join(" ");
+      return parts.join(' ');
     } else {
       return value;
     }
   };
+  const creditCardIsValid = value => {
+    // validation logic according to https://github.com/TravelXML/credit-cards-validation
+    // to check if the value is 16 digits is redundant because function before is validating length of the value
+    value = value.replace(/\s+/g, '');
+    const arr = [...value].map(n => Number(n));
 
-  const onSubmit = (data) => {
-    console.log(data);
+    const checkNum =
+      arr
+        .filter((_num, index) => index !== arr.length - 1)
+        .reverse()
+        .map((num, index) => {
+          if (index % 2 === 0) num = num * 2;
+          if (num > 9) num = num - 9;
+          return num;
+        })
+        .reduce((total, curr) => total + curr) + arr[arr.length - 1];
+    return checkNum % 10 === 0 ? true : false;
   };
+
+  const onSubmit = data => {
+    // console.log(data);
+  };
+
   return (
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="card-form"
-        autoComplete="off"
-      >
+        autoComplete="off">
         <div className="card-form__input">
           <Input
             defaultValue=""
-            ref={register}
+            ref={register({
+              required: 'This field is required',
+              validate: {
+                length: value =>
+                  value.replace(/\s+/g, '').length === 16 ||
+                  'Card number length must be 16 digits',
+                validCardNum: value =>
+                  creditCardIsValid(value) || 'Invalid credit card number',
+              },
+            })}
             label="Card Number"
             htmlFor="cardNum"
             name="cardNum"
-            onChange={(e) => {
+            onChange={e => {
               e.target.value = normalizeCreditNumber(e.target.value);
             }}
-            onBeforeInput={(e) => {
+            onBeforeInput={e => {
               //allow to input only digits in card number field && disallow to input more than 16 chars
               if (
                 !/\d/.test(e.data) ||
-                e.target.value.replace(/\s+/g, "").length >= 16
+                e.target.value.replace(/\s+/g, '').length >= 16
               ) {
                 e.preventDefault();
               }
@@ -70,6 +98,7 @@ const CardForm = ({
               setCardNumFocused(false);
             }}
           />
+          <ErrorMessage name="cardNum" />
         </div>
         <div className="card-form__input">
           <Input
@@ -83,7 +112,7 @@ const CardForm = ({
                 setCardHolderFocused(true);
               }
             }}
-            onBeforeInput={(e) => {
+            onBeforeInput={e => {
               if (
                 e.target.value.length === 30 ||
                 !/^[a-z\d_\s]+$/gi.test(e.data)
@@ -115,12 +144,11 @@ const CardForm = ({
                 }}
                 onBlur={() => {
                   setExpireDateFocused(false);
-                }}
-              >
+                }}>
                 {Array(12)
                   .fill(null)
                   .map((i, index) => (i = index + 1))
-                  .map((month) => {
+                  .map(month => {
                     return (
                       <option value={month} key={month}>
                         {month}
@@ -143,15 +171,14 @@ const CardForm = ({
                 }}
                 onBlur={() => {
                   setExpireDateFocused(false);
-                }}
-              >
+                }}>
                 {Array(12)
                   .fill(null)
                   .map((i, index) => {
                     const year = new Date().getFullYear();
                     return index === 0 ? year : year + index;
                   })
-                  .map((year) => {
+                  .map(year => {
                     return (
                       <option key={year} value={year}>
                         {year}
@@ -170,7 +197,7 @@ const CardForm = ({
                 htmlFor="cvv"
                 name="cvv"
                 defaultValue=""
-                onBeforeInput={(e) => {
+                onBeforeInput={e => {
                   if (e.target.value.length >= 4 || !/\d/g.test(e.data)) {
                     e.preventDefault();
                   }
