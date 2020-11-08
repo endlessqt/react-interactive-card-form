@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { ErrorMessage } from '@hookform/error-message';
 import './Inputs.scss';
 
 const Input = forwardRef(
@@ -13,6 +14,7 @@ const Input = forwardRef(
       onFocus,
       onBlur,
       defaultValue,
+      errorHidden,
     },
     ref
   ) => {
@@ -32,6 +34,12 @@ const Input = forwardRef(
           onFocus={onFocus}
           onBlur={onBlur}
           defaultValue={defaultValue}
+        />
+        <ErrorMessage
+          name={name}
+          as={'div'}
+          className="error"
+          hidden={errorHidden}
         />
       </>
     );

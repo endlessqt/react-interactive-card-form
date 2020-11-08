@@ -26,6 +26,8 @@ My idea was to create a form with similar functionality using react and try out 
 # 2. TODO:
 
 - [ ] validation
+  - form fields validation
+  - error messeges styling
 - [ ] css refactor
 - [ ] readme updates
 - [x] add references

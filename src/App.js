@@ -5,9 +5,7 @@ import Card from './components/Card';
 import CardForm from './components/CardForm';
 
 function App() {
-  const methods = useForm({
-    reValidateMode: 'onChange',
-  });
+  const methods = useForm();
   const [cardNumIsFocused, setCardNumFocused] = useState(false);
   const [cardHolderIsFocused, setCardHolderFocused] = useState(false);
   const [expireDateIsFocused, setExpireDateFocused] = useState(false);

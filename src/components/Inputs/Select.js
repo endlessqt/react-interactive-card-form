@@ -1,8 +1,21 @@
 import React, { forwardRef } from 'react';
+import { ErrorMessage } from '@hookform/error-message';
 import './Inputs.scss';
 
 const Select = forwardRef(
-  ({ id, defaultValue, defaultText, name, onFocus, onBlur, children }, ref) => {
+  (
+    {
+      id,
+      defaultValue,
+      defaultText,
+      name,
+      onFocus,
+      onBlur,
+      children,
+      errorHidden,
+    },
+    ref
+  ) => {
     return (
       <>
         <select
@@ -18,6 +31,12 @@ const Select = forwardRef(
           </option>
           {children}
         </select>
+        <ErrorMessage
+          name={name}
+          as={'div'}
+          className="error"
+          hidden={errorHidden}
+        />
       </>
     );
   }

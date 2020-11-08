@@ -2,8 +2,8 @@ import React from 'react';
 import Input from './Inputs/Input';
 import Select from './Inputs/Select';
 import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
 import './CardForm.scss';
+import { ErrorMessage } from '@hookform/error-message';
 
 const CardForm = ({
   cardNumIsFocused,
@@ -15,7 +15,7 @@ const CardForm = ({
   cvvIsFocused,
   setCvvFocused,
 }) => {
-  const { register, handleSubmit, errors } = useFormContext();
+  const { register, handleSubmit, errors, reset } = useFormContext();
 
   const normalizeCreditNumber = value => {
     value = value.replace(/\s+/g, '');
@@ -48,11 +48,20 @@ const CardForm = ({
           return num;
         })
         .reduce((total, curr) => total + curr) + arr[arr.length - 1];
-    return checkNum % 10 === 0 ? true : false;
+    return checkNum % 10 === 0;
   };
+  const errorsGroup = Object.keys(errors).find(
+    f => f === 'cvv' || f === 'expireMonth' || f === 'expireYear'
+  );
 
   const onSubmit = data => {
-    // console.log(data);
+    /* 
+      post request logic here
+    */
+    //check console if form is submitted
+    console.log(data);
+    // reset form after data sended to the server
+    reset();
   };
 
   return (
@@ -98,7 +107,6 @@ const CardForm = ({
               setCardNumFocused(false);
             }}
           />
-          <ErrorMessage name="cardNum" />
         </div>
         <div className="card-form__input">
           <Input
@@ -106,7 +114,9 @@ const CardForm = ({
             htmlFor="cardHolder"
             name="cardHolder"
             defaultValue=""
-            ref={register}
+            ref={register({
+              required: 'This field is required',
+            })}
             onFocus={() => {
               if (!cardHolderIsFocused) {
                 setCardHolderFocused(true);
@@ -115,7 +125,7 @@ const CardForm = ({
             onBeforeInput={e => {
               if (
                 e.target.value.length === 30 ||
-                !/^[a-z\d_\s]+$/gi.test(e.data)
+                !/^[a-z_\s]+$/gi.test(e.data)
               ) {
                 e.preventDefault();
               }
@@ -133,10 +143,13 @@ const CardForm = ({
               </label>
               <Select
                 name="expireMonth"
-                ref={register}
+                ref={register({
+                  required: 'Expiration Date is required',
+                })}
                 defaultValue=""
                 defaultText="Month"
                 id="select-date"
+                errorHidden
                 onFocus={() => {
                   if (!expireDateIsFocused) {
                     setExpireDateFocused(true);
@@ -147,7 +160,7 @@ const CardForm = ({
                 }}>
                 {Array(12)
                   .fill(null)
-                  .map((i, index) => (i = index + 1))
+                  .map((item, index) => (item = index + 1))
                   .map(month => {
                     return (
                       <option value={month} key={month}>
@@ -160,10 +173,13 @@ const CardForm = ({
             <div className="card-form__input">
               <Select
                 name="expireYear"
-                ref={register}
+                ref={register({
+                  required: 'Expiration Date is required',
+                })}
                 defaultValue=""
                 defaultText="Year"
                 id="select-date"
+                errorHidden
                 onFocus={() => {
                   if (!expireDateIsFocused) {
                     setExpireDateFocused(true);
@@ -193,7 +209,10 @@ const CardForm = ({
               <Input
                 type="password"
                 label="CVV"
-                ref={register}
+                ref={register({
+                  required: 'CVV is required',
+                })}
+                errorHidden
                 htmlFor="cvv"
                 name="cvv"
                 defaultValue=""
@@ -214,6 +233,14 @@ const CardForm = ({
             </div>
           </div>
         </div>
+        {errorsGroup ? (
+          <ErrorMessage
+            name={errorsGroup}
+            errors={errors}
+            as="div"
+            className="error"
+          />
+        ) : null}
         <button className="card-form__button" type="submit">
           Submit
         </button>
